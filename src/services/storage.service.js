@@ -9,7 +9,7 @@ const uploadFile = async (File, userId) => {
         const fileUpload = bucket.file(`profile-pictures/${userId}/${uniqueFileName}`); //combination of names
         const blobStream = fileUpload.createWriteStream({
             metadata: {
-                contentType: file.mimetype
+                contentType: File.mimetype
             }
         }); //writable stream to upload file
 
@@ -20,7 +20,8 @@ const uploadFile = async (File, userId) => {
                 const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileUpload.name}`;
                 resolve({
                     fileName: uniqueFileName,
-                    url: publicUrl
+                    url: publicUrl,
+                    filePath: `profile-pictures/${userId}/${uniqueFileName}`
                 });
             });
             blobStream.end(File.buffer);
@@ -36,8 +37,9 @@ const deleteFile = async (filePath) => {
         const file = bucket.file(filePath);
         await file.delete();
     } catch (error) {
-        console.error('Error deleting file:', error.message);
-    }
+       if (error.code !== 404) throw error;
+       console.warn('File not found, skipping delete:', filePath);
+}
 };
 
 module.exports = {

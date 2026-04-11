@@ -28,8 +28,6 @@ const uploadProfilePicture = async (req, res) => {
     // Upload new file
     const uploadedFile = await uploadFile(req.file, userId);
 
-    const filePath = `profile-pictures/${userId}/${uploadedFile.fileName}`;
-
     // Delete old file if exists
     if (oldFilePath) {
       await deleteFile(oldFilePath);
@@ -114,10 +112,7 @@ const getUserProfile = async (req, res) => {
     const userDoc = await userRef.get();
 
     if (!userDoc.exists) {
-      return res.status(200).json({
-        message: 'User profile not found',
-        user: null
-      });
+      return res.status(404).json({ message: 'User profile not found' });
     }
 
     return res.status(200).json({
