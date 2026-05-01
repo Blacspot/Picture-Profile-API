@@ -36,7 +36,7 @@ const uploadProfilePicture = async (req, res) => {
     // Save metadata to Firestore
     const profileImageData = {
       fileName: uploadedFile.fileName,
-      filePath: filePath,
+      filePath: uploadedFile.filePath,
       url: uploadedFile.url,
       mimeType: req.file.mimetype,
       size: req.file.size,
