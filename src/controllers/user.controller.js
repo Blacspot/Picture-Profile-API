@@ -27,6 +27,7 @@ const uploadProfilePicture = async (req, res) => {
 
     // Upload new file
     const uploadedFile = await uploadFile(req.file, userId);
+    console.log("Uploaded file:", uploadedFile);
 
     // Delete old file if exists
     if (oldFilePath) {
@@ -49,7 +50,7 @@ const uploadProfilePicture = async (req, res) => {
       },
       { merge: true }
     );
-
+    console.log("Saving to Firestore:", profileImageData);
     return res.status(200).json({
       message: 'Profile picture uploaded successfully',
       profileImage: profileImageData
