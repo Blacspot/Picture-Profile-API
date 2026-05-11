@@ -1,7 +1,7 @@
 const { bucket } = require('../config/firebase');
 const { v4: uuidv4 } = require('uuid');
 
-console.log("Bucket name:", bucket.name);
+
 
 // Upload profile picture to Firebase Storage
 const uploadFile = async (File, userId) => {

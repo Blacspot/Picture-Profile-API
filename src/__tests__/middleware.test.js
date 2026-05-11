@@ -27,12 +27,12 @@ describe('authenticateUser middleware', () => {
         mockVerifyIdToken.mockRejectedValue(new Error('Invalid token'));
         const res = await request(app)
             .get('/test')
-            .set('Authorization', 'Basic badtoken');
+            .set('Authorization', 'Bearer badtoken');
         expect(res.status).toBe(401);
         expect(res.body.message).toBe('Invalid or expired token');
     });
     test('calls next() and attaches user when token is valid', async () => {
-        mockVerifyIdToken.mockRejectedValue({ uid: 'uid123'});
+        mockVerifyIdToken.mockResolvedValue({ uid: 'uid123'});
         const res = await request(app)
             .get('/test')
             .set('Authorization', 'Bearer validtoken');
